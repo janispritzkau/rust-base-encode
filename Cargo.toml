@@ -6,7 +6,7 @@ edition = "2018"
 
 description = "Encode and decode data to any base."
 
-documentation = "https://docs.rs/encode-base"
+documentation = "https://docs.rs/base-encode"
 repository = "https://gitlab.com/janispritzkau/rust-base-encode"
 
 license = "MIT"
