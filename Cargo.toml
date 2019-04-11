@@ -1,6 +1,6 @@
 [package]
 name = "base-encode"
-version = "0.1.2"
+version = "0.1.3"
 authors = ["Janis Pritzkau <janispritzkau@gmail.com>"]
 edition = "2018"
 
@@ -11,3 +11,6 @@ documentation = "https://docs.rs/base-encode"
 repository = "https://gitlab.com/janispritzkau/rust-base-encode"
 
 license = "MIT"
+
+[dev-dependencies]
+rand = "0.6"
