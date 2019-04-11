@@ -5,6 +5,7 @@ authors = ["Janis Pritzkau <janispritzkau@gmail.com>"]
 edition = "2018"
 
 description = "Encode and decode data to any base."
+readme = "README.md"
 
 documentation = "https://docs.rs/base-encode"
 repository = "https://gitlab.com/janispritzkau/rust-base-encode"
