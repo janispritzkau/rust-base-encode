@@ -1,0 +1,9 @@
+[package]
+name = "base-encode"
+description = "Encode and decode data to any base."
+version = "0.1.0"
+authors = ["Janis Pritzkau <janispritzkau@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+rand = "0.6"
