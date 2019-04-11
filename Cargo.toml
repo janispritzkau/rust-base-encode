@@ -10,6 +10,3 @@ documentation = "https://docs.rs/encode-base"
 repository = "https://gitlab.com/janispritzkau/rust-base-encode"
 
 license = "MIT"
-
-[dependencies]
-rand = "0.6"
