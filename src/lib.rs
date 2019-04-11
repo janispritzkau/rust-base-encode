@@ -18,6 +18,14 @@
 //! ```rust
 //! decode(&[0, 2, 5, 6], 10) // [0, 1, 0]
 //! ```
+//!
+//! ## Encode / decode strings
+//!
+//! ```rust
+//! from_str("255", 10, b"0123456789").unwrap() // [0xff]
+//!
+//! to_string(&[0xa], 2, b"OX").unwrap() // "XOXO"
+//! ```
 
 pub mod utils;
 
@@ -55,4 +63,18 @@ pub fn decode(buf: &[u8], base: u16) -> Vec<u8> {
     let mut bytes = vec![0; zeros];
     bytes.append(&mut utils::to_bytes_be(&num));
     bytes
+}
+
+/// Converts bytes to a base encoded string using the specified character table.
+pub fn to_string(buf: &[u8], base: u16, chars: &[u8]) -> Option<String> {
+    encode(buf, base).iter().map(|&x| {
+        chars.get(x as usize).map(|&c| c as char)
+    }).collect()
+}
+
+/// Converts a base encoded string to bytes using the specified character table.
+pub fn from_str(string: &str, base: u16, chars: &[u8]) -> Option<Vec<u8>> {
+    Some(decode(&string.chars().map(|c| {
+        chars.iter().position(|&a| a == c as u8).map(|x| x as u8)
+    }).collect::<Option<Vec<_>>>()?, base))
 }
