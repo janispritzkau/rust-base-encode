@@ -11,3 +11,11 @@ encode(&data, 10) // [1, 0, 0, 0, 0]
 // leading zeros are preserved
 decode(&[0, 0, 2, 5, 6], 10) // [0, 0, 1, 0]
 ```
+
+## Convert from and to strings
+
+```rust
+from_str("255", 10, b"0123456789").unwrap() // [0xff]
+
+to_string(&[0xa], 2, b"OX").unwrap() // "XOXO"
+```
