@@ -34,7 +34,7 @@ pub mod utils;
 /// The `base` must be at least 2 and lower or equal than 256.
 ///
 /// The return value contains the digits in the specified base.
-pub fn encode(buf: &[u8], base: u16) -> Vec<u8> {
+pub fn encode(buf: &[u8], base: u8) -> Vec<u8> {
     let mut num = utils::from_bytes_be(buf);
     let mut digits = Vec::new();
 
@@ -51,30 +51,31 @@ pub fn encode(buf: &[u8], base: u16) -> Vec<u8> {
 ///
 /// The `base` must be at least 2 and lower or equal than 256.
 /// You must ensure that the values are lower that the base.
-pub fn decode(buf: &[u8], base: u16) -> Vec<u8> {
+pub fn decode(buf: &[u8], base: u8) -> Option<Vec<u8>> {
     let mut num = vec![0];
     let zeros = buf.iter().take_while(|&x| *x == 0).count();
 
     for &digit in buf {
+        if digit >= base { return None }
         utils::mul(&mut num, base as utils::DoubleDigit);
         utils::add(&mut num, digit.into());
     }
 
     let mut bytes = vec![0; zeros];
     bytes.append(&mut utils::to_bytes_be(&num));
-    bytes
+    Some(bytes)
 }
 
 /// Converts bytes to a base encoded string using the specified character table.
-pub fn to_string(buf: &[u8], base: u16, chars: &[u8]) -> Option<String> {
+pub fn to_string(buf: &[u8], base: u8, chars: &[u8]) -> Option<String> {
     encode(buf, base).iter().map(|&x| {
         chars.get(x as usize).map(|&c| c as char)
     }).collect()
 }
 
 /// Converts a base encoded string to bytes using the specified character table.
-pub fn from_str(string: &str, base: u16, chars: &[u8]) -> Option<Vec<u8>> {
-    Some(decode(&string.chars().map(|c| {
+pub fn from_str(string: &str, base: u8, chars: &[u8]) -> Option<Vec<u8>> {
+    decode(&string.chars().map(|c| {
         chars.iter().position(|&a| a == c as u8).map(|x| x as u8)
-    }).collect::<Option<Vec<_>>>()?, base))
+    }).collect::<Option<Vec<_>>>()?, base)
 }
