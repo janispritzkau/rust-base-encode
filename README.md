@@ -1,5 +1,8 @@
 # base-encode
 
+[![crate](https://img.shields.io/crates/v/base-encode)](https://crates.io/crates/base-encode)
+[![docs.rs](https://docs.rs/base-encode/badge.svg)](https://docs.rs/base-encode)
+
 Encode and decode data from and to any base from 2 to 256.
 
 ```rust
