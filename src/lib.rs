@@ -43,8 +43,10 @@ pub fn encode(buf: &[u8], base: u8) -> Vec<u8> {
     }
 
     let zeros = buf.iter().take_while(|&x| *x == 0).count();
+
     digits.resize(digits.len() + zeros, 0);
-    digits.reverse(); digits
+    digits.reverse();
+    digits
 }
 
 /// Decodes a base encoded `u8` slice into bytes.
@@ -55,8 +57,14 @@ pub fn decode(buf: &[u8], base: u8) -> Option<Vec<u8>> {
     let mut num = vec![0];
     let zeros = buf.iter().take_while(|&x| *x == 0).count();
 
+    if zeros == buf.len() {
+        return Some(vec![0; zeros]);
+    }
+
     for &digit in buf {
-        if digit >= base { return None }
+        if digit >= base {
+            return None;
+        }
         utils::mul(&mut num, base as utils::DoubleDigit);
         utils::add(&mut num, digit.into());
     }
@@ -68,14 +76,19 @@ pub fn decode(buf: &[u8], base: u8) -> Option<Vec<u8>> {
 
 /// Converts bytes to a base encoded string using the specified character table.
 pub fn to_string(buf: &[u8], base: u8, chars: &[u8]) -> Option<String> {
-    encode(buf, base).iter().map(|&x| {
-        chars.get(x as usize).map(|&c| c as char)
-    }).collect()
+    encode(buf, base)
+        .iter()
+        .map(|&x| chars.get(x as usize).map(|&c| c as char))
+        .collect()
 }
 
 /// Converts a base encoded string to bytes using the specified character table.
 pub fn from_str(string: &str, base: u8, chars: &[u8]) -> Option<Vec<u8>> {
-    decode(&string.chars().map(|c| {
-        chars.iter().position(|&a| a == c as u8).map(|x| x as u8)
-    }).collect::<Option<Vec<_>>>()?, base)
+    decode(
+        &string
+            .chars()
+            .map(|c| chars.iter().position(|&a| a == c as u8).map(|x| x as u8))
+            .collect::<Option<Vec<_>>>()?,
+        base,
+    )
 }
