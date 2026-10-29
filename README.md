@@ -22,3 +22,7 @@ from_str("255", 10, b"0123456789").unwrap() // [0xff]
 
 to_string(&[0xa], 2, b"OX").unwrap() // "XOXO"
 ```
+
+## License
+
+Licensed under the [MIT license](LICENSE).
